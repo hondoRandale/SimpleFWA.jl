@@ -1,4 +1,12 @@
  
 using Documenter, SimpleFWA
 
-makedocs( modules = [ SimpleFWA ], sitename="SimpleFWA.jl" )
+makedocs(
+  sitename = "SimpleFWA",
+  format   = Documenter.HTML(),
+  modules  = [SimpleFWA]
+)
+
+deploydocs(
+  repo = "github.com/hondoRandale/SimpleFWA.jl.git"
+)
