@@ -1,10 +1,13 @@
 name = "SimpleFWA"
-uuid = "01751cc5-00ac-4874-a185-7c1a73e95fb0"
-authors = ["hondoRandale <jules.rasetaharison@auticon.de>"]
+uuid = "c5e3f7f7-c02a-4fcc-b7a5-ee49051641db"
+authors = ["hondoRandale <jules.rasetaharison@auticon.de> and contributors"]
 version = "0.1.0"
 
-[deps]
-Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-InvertedIndices = "41ab1584-1d38-5bbf-9106-f11c6c58b48f"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
