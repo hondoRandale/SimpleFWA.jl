@@ -23,7 +23,7 @@ jobs:
                   version: ${{ matrix.julia-version }}
             - name: Install dependencies
               run: |
-                julia --project=docs -e 'using Pkg; Pkg.add(PackageSpec(path="./")); Pkg.instantiate(); Pkg.update()'
+                julia --project=docs -e 'using Pkg; Pkg.add(PackageSpec(path="./")); Pkg.instantiate(); Pkg.update(); using SimpleFWA'
             - name: Build and deploy
               env:
                   DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
