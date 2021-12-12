@@ -45,9 +45,7 @@ module SimpleFWA
               ϵ_conv::Float32=1f-6 )
 
     minimize non-linear objective function with upper, lower bound on solution space
-    """
 
-    """
     ...
     # Arguments
       - `nFireworks::Int`:                    number of fireworks
@@ -66,7 +64,7 @@ module SimpleFWA
       # Return
       - `Tuple`:                              best solution, best val.
       ...
-      """ ->
+    """ ->
   @views function simpleFWA( nFireworks::Int,
                              nSparks::Int;
                              λ_0::Float32,
