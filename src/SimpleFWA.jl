@@ -28,7 +28,45 @@ module SimpleFWA
     y_min;
   end
 
+   @doc """
 
+   simpleFWA( nFireworks::Int,
+              nSparks::Int;
+              λ_0::Float32,
+              ϵ_A::Float32,
+              C_a::Float32,
+              C_r::Float32,
+              lower::Vector{Float32},
+              upper::Vector{Float32},
+              objFunction::Function,
+              XPrimary::Vector{ Matrix{Float32} },
+              yPrimary::Vector{ Matrix{Float32} },
+              maxiter::Int,
+              ϵ_conv::Float32=1f-6 )
+
+    minimize non-linear objective function with upper, lower bound on solution space
+    """
+
+    """
+    ...
+    # Arguments
+      - `nFireworks::Int`:                    number of fireworks
+      - `nSparks::Int`:                       number sparks per fw
+      - `λ_0::Float32`:                       maximum initial explosion amplitude
+      - `ϵ_A::Float32`:                       smoothing parameter
+      - `C_a::Float32`:                       explosion amplitude upscale   factor
+      - `C_r::Float32`:                       explosion amplitude downscale factor
+      - `lower::Vector{Float32}`:             lower bound solution space
+      - `upper::Vector{Float32}`:             upper bound solution space
+      - `objFunction::Function`:              objective function to be minimized
+      - `XPrimary::Vector{Matrix{Float32}}`:  feature set primary algorithm
+      - `yPrimary::Vector{Matrix{Float32}}`:  target  set primary algorithm
+      - `maxiter::Int`:                       maximum number of iterations
+      - `ϵ_conv::Float32`:                    convergence parameter
+      # Return
+      - `Tuple`:                              best solution, best val.
+      ...
+      """ ->
   @views function simpleFWA( nFireworks::Int,
                              nSparks::Int;
                              λ_0::Float32,

@@ -1,9 +1,10 @@
 using Documenter
+using DocumenterMarkdown
 using SimpleFWA
 
 makedocs(
     sitename = "SimpleFWA",
-    format = Documenter.HTML(),
+    format = Markdown(),
     modules = [SimpleFWA]
 )
 
