@@ -1,3 +1,25 @@
+# MIT License
+
+#Copyright (c) 2021 hondoRandale <jules.rasetaharison@tutanota.com> and contributors
+
+#Permission is hereby granted, free of charge, to any person obtaining a copy
+#of this software and associated documentation files (the "Software"), to deal
+#in the Software without restriction, including without limitation the rights
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#copies of the Software, and to permit persons to whom the Software is
+#furnished to do so, subject to the following conditions:
+
+#The above copyright notice and this permission notice shall be included in all
+#copies or substantial portions of the Software.
+
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#SOFTWARE.
+
 module SimpleFWA
 
   using InvertedIndices
@@ -27,7 +49,6 @@ module SimpleFWA
 
 
     """
-
         simpleFWA( nFireworks::Int,
                    nSparks::Int;
                    λ_0::Float32,
@@ -41,7 +62,6 @@ module SimpleFWA
                    yPrimary::Vector{ Matrix{Float32} },
                    maxiter::Int,
                    ϵ_conv::Float32=1f-6 )
-
         minimize objective function objFunction, the solution space is limited by lower and upper bound.
         The optimization algorithm utilized is an simplified version of dynFireWorksAlgorithm. The nFireworks
         parameter governs the number of fireworks being evaluated in parallel in each iteration.  nSparks is
@@ -50,7 +70,6 @@ module SimpleFWA
         amplitudes. C_r is the downscaling parameter for explosion amplitudes. XPrimary is the feature set of the
         primary algorithm to be tuned. yPrimary is the target set of the primary algorithm. maxiter is the maximum
         number iteraions.  ϵ_conv denotes the convergence parameter.
-
     """
   @views function simpleFWA( nFireworks::Int,
                              nSparks::Int;
