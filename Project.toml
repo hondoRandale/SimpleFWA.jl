@@ -1,7 +1,7 @@
 name = "SimpleFWA"
 uuid = "c5e3f7f7-c02a-4fcc-b7a5-ee49051641db"
-authors = ["hondoRandale <jules.rasetaharison@auticon.de> and contributors"]
-version = "0.1.0"
+authors = ["hondoRandale <jules.rasetaharison@tutanota.com> and contributors"]
+version = "0.1.1"
 
 [deps]
 InvertedIndices = "41ab1584-1d38-5bbf-9106-f11c6c58b48f"
