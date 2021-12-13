@@ -7,11 +7,6 @@ module SimpleFWA
   export FWA, simpleFWA
 
   """
-  SimpleFWA is a is a bounded input multivar non-linear solver losely based on coopFWA.
-  """
-
-
-  """
     X                 - each column is the origin of a fw
     fitness_fireworks - fitness of each fw
     S                 - contains all sparks foreach fw
@@ -56,7 +51,7 @@ module SimpleFWA
         primary algorithm to be tuned. yPrimary is the target set of the primary algorithm. maxiter is the maximum
         number iteraions.  ϵ_conv denotes the convergence parameter.
 
-    """ 
+    """
   @views function simpleFWA( nFireworks::Int,
                              nSparks::Int;
                              λ_0::Float32,
