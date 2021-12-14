@@ -1,4 +1,13 @@
- 
-using Documenter, SimpleFWA
+using Documenter
+using DocumenterMarkdown
+using SimpleFWA
 
-makedocs( modules = [ SimpleFWA ], sitename="SimpleFWA.jl" )
+makedocs(
+    sitename = "SimpleFWA",
+    format = Markdown(),
+    modules = [SimpleFWA]
+)
+
+deploydocs(
+    repo = "git@github.com:hondoRandale/SimpleFWA.jl.git"
+)
