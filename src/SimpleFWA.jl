@@ -45,9 +45,6 @@ module SimpleFWA
     y_min;
   end
 
-
-
-
     """
         simpleFWA( nFireworks::Int,
                    nSparks::Int;
