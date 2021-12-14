@@ -1,4 +1,5 @@
 # SimpleFWA.jl
+   [![TagBot](https://github.com/hondoRandale/SimpleFWA.jl/actions/workflows/TagBot.yml/badge.svg)](https://github.com/hondoRandale/SimpleFWA.jl/actions/workflows/TagBot.yml)
 
 ## Introduction
    This solver is loosely based on the coopFWA algorithm.
