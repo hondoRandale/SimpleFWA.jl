@@ -20,6 +20,13 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
 
+## Himmelblau's function
+Himmelblau(x;XPrimary,yPrimary) = ( x[1]^2 + x[2] - 11.0f0 )^2 + ( x[1] + x[2]^2 - 7.0f0  )
+
+## Lévi function N.13
+Levi_no13(x;XPrimary,yPrimary) = sin( 3 * π * x[1] )^2 + ( x[1] - 1.0f0 )^2 * ( 1.0f0 + sin( 1.0f0+3*π*x[2] )^2 ) +
+                                 ( x[2] - 1.0f0 )^2 * ( 1.0f0 + sin( 2*π*x[2] )^2 )
+
 ## Rosenbrock_function
 Rosenbrock(x;XPrimary,yPrimary) = ( 1.0f0 - x[1] )^2 + 100.0f0 * (x[2] - x[1]^2)^2
 
@@ -54,7 +61,8 @@ Schaffer_function_no2(x;XPrimary,yPrimary) = 0.5f0 + ( sin( x[1]^2 - x[2]^2 )^2 
 ## Bukin_function_no6
 Bukin_function_no6(x;XPrimary,yPrimary) = 100.0f0 * sqrt( abs( x[2] - 0.01f0 * x[1]^2 ) ) + 0.01f0*abs( x[1] + 10.0f0 )
 
-obj_functions = [ Ackley, Matyas, Booth,
+obj_functions = [ Himmelblau, Levi_no13,
+                  Ackley, Matyas, Booth,
                   Three_hump_camel, Easom,
                   Sphere, Rosenbrock,
                   Schaffer_function_no2,

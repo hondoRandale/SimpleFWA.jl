@@ -1,10 +1,8 @@
 using Documenter
-using DocumenterMarkdown
 using SimpleFWA
 
 makedocs(
     sitename = "SimpleFWA",
-    format = Markdown(),
     modules = [SimpleFWA]
 )
 

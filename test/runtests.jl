@@ -30,18 +30,22 @@ using SimpleFWA
 @testset "SimpleFWA.jl" begin
   XPrimary = Vector{ Matrix{Float32} }( undef, 1 );
   yPrimary = Vector{ Matrix{Float32} }( undef, 1 );
-  
-  # 2-D objective functions 
 
-  @test Ackley( [ 0.0f0, 0.0f0 ]; XPrimary, yPrimary )              ≈ 0.0f0
-  @test Booth(  [ 1.0f0, 3.0f0 ]; XPrimary, yPrimary )              ≈ 0.0f0
-  @test Rosenbrock( [ 1.0f0, 1.0f0 ]; XPrimary, yPrimary )          ≈ 0.0f0
-  @test Matyas( [ 0.0f0, 0.0f0 ]; XPrimary, yPrimary )              ≈ 0.0f0
-  @test Three_hump_camel( [ 0.0f0, 0.0f0 ]; XPrimary, yPrimary )    ≈ 0.0f0
-  @test Easom( [ π, π ]; XPrimary, yPrimary )                       ≈ -1.0f0
-  @test Sphere( [0.0f0, 0.0f0]; XPrimary, yPrimary )                ≈ 0.0f0
-  @test Schaffer_function_no2( [0.0f0, 0.0f0]; XPrimary, yPrimary ) ≈ 0.0f0
-  @test Bukin_function_no6( [-10.0f0, 1.0f0 ]; XPrimary, yPrimary ) ≈ 0.0f0
+  # 2-D objective functions
+  @test Himmelblau( [ 3.0f0, 2.0f0 ]; XPrimary, yPrimary )             ≈ 0.0f0
+  @test Himmelblau( [ -2.805118f0,  3.131312f0 ]; XPrimary, yPrimary ) ≈ 0.0f0 atol=1f-3
+  @test Himmelblau( [ -3.779310f0, -3.283186f0 ]; XPrimary, yPrimary ) ≈ 0.0f0 atol=1f-10
+  @test Himmelblau( [ 3.584428f0, -1.848126f0 ]; XPrimary, yPrimary )  ≈ 0.0f0 atol=1f-5
+  @test Levi_no13( [ 1.0f0, 1.0f0 ]; XPrimary, yPrimary )              ≈ 0.0f0 atol=1f-30
+  @test Ackley( [ 0.0f0, 0.0f0 ]; XPrimary, yPrimary )                 ≈ 0.0f0
+  @test Booth(  [ 1.0f0, 3.0f0 ]; XPrimary, yPrimary )                 ≈ 0.0f0
+  @test Rosenbrock( [ 1.0f0, 1.0f0 ]; XPrimary, yPrimary )             ≈ 0.0f0
+  @test Matyas( [ 0.0f0, 0.0f0 ]; XPrimary, yPrimary )                 ≈ 0.0f0
+  @test Three_hump_camel( [ 0.0f0, 0.0f0 ]; XPrimary, yPrimary )       ≈ 0.0f0
+  @test Easom( [ π, π ]; XPrimary, yPrimary )                          ≈ -1.0f0
+  @test Sphere( [0.0f0, 0.0f0]; XPrimary, yPrimary )                   ≈ 0.0f0
+  @test Schaffer_function_no2( [0.0f0, 0.0f0]; XPrimary, yPrimary )    ≈ 0.0f0
+  @test Bukin_function_no6( [-10.0f0, 1.0f0 ]; XPrimary, yPrimary )    ≈ 0.0f0
 
   lower    = [ -10.0f0, -10.0f0 ];
   upper    = [ 10.0f0, 10.0f0 ];
