@@ -21,7 +21,7 @@
 #SOFTWARE.
 
 ## Himmelblau's function
-Himmelblau(x;XPrimary,yPrimary) = ( x[1]^2 + x[2] - 11.0f0 )^2 + ( x[1] + x[2]^2 - 7.0f0  )
+Himmelblau(x;XPrimary,yPrimary) = ( x[1]^2 + x[2] - 11.0f0 )^2 + ( x[1] + x[2]^2 - 7.0f0  )^2
 
 ## Lévi function N.13
 Levi_no13(x;XPrimary,yPrimary) = sin( 3 * π * x[1] )^2 + ( x[1] - 1.0f0 )^2 * ( 1.0f0 + sin( 1.0f0+3*π*x[2] )^2 ) +
