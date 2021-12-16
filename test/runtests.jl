@@ -30,8 +30,8 @@ using SimpleFWA
 @testset "SimpleFWA.jl" begin
   XPrimary = Vector{ Matrix{Float32} }( undef, 1 );
   yPrimary = Vector{ Matrix{Float32} }( undef, 1 );
-
   # 2-D objective functions
+  @test Beale( [3.0f0,0.5f0]; XPrimary, yPrimary )                     ≈ 0.0f0
   @test Himmelblau( [ 3.0f0, 2.0f0 ]; XPrimary, yPrimary )             ≈ 0.0f0
   @test Himmelblau( [ -2.805118f0,  3.131312f0 ]; XPrimary, yPrimary ) ≈ 0.0f0 atol=1f-3
   @test Himmelblau( [ -3.779310f0, -3.283186f0 ]; XPrimary, yPrimary ) ≈ 0.0f0 atol=1f-10
@@ -60,9 +60,28 @@ using SimpleFWA
                                    objFunction = objFunction,
                                    XPrimary    = XPrimary,
                                    yPrimary    = yPrimary,
-                                   maxiter     = 30 );
+                                   maxiter     = 40 );
   solutionFWA = sFWA( Easom );
-  @test isapprox( solutionFWA.x_b[1], π; atol=0.01 )
-  @test isapprox( solutionFWA.x_b[2], π; atol=0.01 )
-  @test sum( [ sFWA( fObj ).y_min for fObj ∈ obj_functions ] ) < -0.8
-end;
+  @test isapprox( solutionFWA.x_b[1], π; atol=0.04 )
+  @test isapprox( solutionFWA.x_b[2], π; atol=0.04 )
+
+  mhFWA( objFunction ) = metropolisHastingsFWA( 16, 32;
+                                                λ_0         = 7.95f0,
+                                                ϵ_A         = 0.5f-2,
+                                                C_a         = 1.2f0,
+                                                C_r         = 0.8f0,
+                                                lower       = lower,
+                                                upper       = upper,
+                                                objFunction = objFunction,
+                                                XPrimary    = XPrimary,
+                                                yPrimary    = yPrimary,
+                                                maxiter     = 400 )
+  solutionFWA = mhFWA( Easom );
+
+
+  @test isapprox( solutionFWA.x_b[1], π; atol=0.04 )
+  @test isapprox( solutionFWA.x_b[2], π; atol=0.04 )
+
+  @test sum( [ sFWA( fObj ).y_min for fObj ∈ obj_functions ] )  < -0.8
+  @test sum( [ mhFWA( fObj ).y_min for fObj ∈ obj_functions ] ) < -0.4
+end

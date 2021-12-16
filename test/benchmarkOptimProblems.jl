@@ -19,6 +19,8 @@
 #LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
+## Beale function
+Beale(x;XPrimary,yPrimary) = ( 1.5f0 - x[1] + x[1]*x[2] )^2 + ( 2.25f0 - x[1] + x[1]*x[2]^2 )^2 + ( 2.625f0 - x[1] + x[1]*x[2]^3 )^2
 
 ## Himmelblau's function
 Himmelblau(x;XPrimary,yPrimary) = ( x[1]^2 + x[2] - 11.0f0 )^2 + ( x[1] + x[2]^2 - 7.0f0  )^2
@@ -61,7 +63,8 @@ Schaffer_function_no2(x;XPrimary,yPrimary) = 0.5f0 + ( sin( x[1]^2 - x[2]^2 )^2 
 ## Bukin_function_no6
 Bukin_function_no6(x;XPrimary,yPrimary) = 100.0f0 * sqrt( abs( x[2] - 0.01f0 * x[1]^2 ) ) + 0.01f0*abs( x[1] + 10.0f0 )
 
-obj_functions = [ Himmelblau, Levi_no13,
+obj_functions = [ Beale,
+                  Himmelblau, Levi_no13,
                   Ackley, Matyas, Booth,
                   Three_hump_camel, Easom,
                   Sphere, Rosenbrock,
