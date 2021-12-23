@@ -44,7 +44,7 @@ module SimpleFWA
     x_b;
     y_min;
     iter;
-    fitness_trace;
+    err_conv;
   end
 
   function dynExplosionAmplitude( y_min::Float32,
@@ -168,7 +168,7 @@ module SimpleFWA
                              XPrimary::Vector{ Matrix{Float32} },
                              yPrimary::Vector{ Matrix{Float32} },
                              maxiter::Int,
-                             ϵ_conv::Float32=1f-40 )
+                             ϵ_conv::Float32=0.001f0 )
 
     @assert nFireworks > 0
     @assert nSparks    > 0
@@ -184,7 +184,6 @@ module SimpleFWA
     d        = length( lower );
     rng      = RandomDevice();
 
-    fitness_trace     = zeros( Float32, maxiter );
     ## explosion amplitudes of firework roots
     fitness_fireworks = Vector{Float32}( undef, nFireworks );
     fitness_sparks    = Vector{ Vector{Float32} }( undef,  nFireworks );
@@ -210,8 +209,10 @@ module SimpleFWA
                         f        = objFunction,
                         X        = X,
                         fitness  = fitness_fireworks );
-    cf    = argmin( fitness_fireworks )::Int;
-    y_min = fitness_fireworks[cf]::Float32;
+    cf        = argmin( fitness_fireworks )::Int;
+    y_min     = fitness_fireworks[cf]::Float32;
+    y_min_old = fitness_fireworks[Not( cf )][1]::Float32;
+    conv_val  = -1.0f0;
 
     # compute explosion amplitudes
     explosionAmplitudes!( ;A, λ_0, ϵ_A, y_min, fitness_fireworks );
@@ -220,7 +221,7 @@ module SimpleFWA
     err     = 2.0f0 * ϵ_conv;
     x_b     = X[:,cf];
     x_b_old = zeros( Float32, d );
-    while err > ϵ_conv && iter <= maxiter
+    while iter <= maxiter
       cf              = argmin( fitness_fireworks )::Int;
       @inbounds y_cf  = fitness_fireworks[cf]::Float32;
       @inbounds A_cf  = A[cf]::Float32;
@@ -258,10 +259,13 @@ module SimpleFWA
           @inbounds fitness_fireworks[jj] = val;
         end
       end
-      μFW = mean( fitness_fireworks );
-      #err = sqrt( sum( std( X, mean=mean( X, dims=2 )[:,1], dims=2 )[:,1] ) );
-      fitness_trace[iter] = y_min;
-      iter += 1;
+      μFW      = mean( fitness_fireworks );
+      conv_val = std( fitness_fireworks;mean=mean( fitness_fireworks ) )^0.10;
+      if iter > 10 &&  conv_val < ϵ_conv
+        break
+      end
+      y_min_old = y_min
+      iter     += 1;
     end
     # check if best global solution is contained in fw position
     if y_min > minimum( fitness_fireworks )
@@ -269,7 +273,7 @@ module SimpleFWA
       @inbounds y_min = fitness_fireworks[ idx ];
       @inbounds x_b   = X[:,idx];
     end
-    return FWA( X, fitness_fireworks, S, fitness_sparks, x_b, y_min, iter-1, fitness_trace )
+    return FWA( X, fitness_fireworks, S, fitness_sparks, x_b, y_min, iter-1, conv_val )
   end
 
 
@@ -384,7 +388,7 @@ module SimpleFWA
       @inbounds y_min = fitness_fireworks[ idx ];
       @inbounds x_b   = X[:,idx];
     end
-    return FWA( X, fitness_fireworks, S, fitness_sparks, x_b, y_min, iter )
+    return FWA( X, fitness_fireworks, S, fitness_sparks, x_b, y_min, iter, 0.0f0 )
   end
 
 end
