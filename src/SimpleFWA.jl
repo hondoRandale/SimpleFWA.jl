@@ -44,6 +44,7 @@ module SimpleFWA
     x_b;
     y_min;
     iter;
+    fitness_trace;
   end
 
   function dynExplosionAmplitude( y_min::Float32,
@@ -182,6 +183,8 @@ module SimpleFWA
 
     d        = length( lower );
     rng      = RandomDevice();
+
+    fitness_trace     = zeros( Float32, maxiter );
     ## explosion amplitudes of firework roots
     fitness_fireworks = Vector{Float32}( undef, nFireworks );
     fitness_sparks    = Vector{ Vector{Float32} }( undef,  nFireworks );
@@ -213,7 +216,7 @@ module SimpleFWA
     # compute explosion amplitudes
     explosionAmplitudes!( ;A, λ_0, ϵ_A, y_min, fitness_fireworks );
     A[cf]   = ( minimum( A[ Not( cf ) ] ) / 2.0f0 )::Float32;
-    iter    = 0;
+    iter    = 1;
     err     = 2.0f0 * ϵ_conv;
     x_b     = X[:,cf];
     x_b_old = zeros( Float32, d );
@@ -257,6 +260,7 @@ module SimpleFWA
       end
       μFW = mean( fitness_fireworks );
       #err = sqrt( sum( std( X, mean=mean( X, dims=2 )[:,1], dims=2 )[:,1] ) );
+      fitness_trace[iter] = y_min;
       iter += 1;
     end
     # check if best global solution is contained in fw position
@@ -265,7 +269,7 @@ module SimpleFWA
       @inbounds y_min = fitness_fireworks[ idx ];
       @inbounds x_b   = X[:,idx];
     end
-    return FWA( X, fitness_fireworks, S, fitness_sparks, x_b, y_min, iter )
+    return FWA( X, fitness_fireworks, S, fitness_sparks, x_b, y_min, iter-1, fitness_trace )
   end
 
 

@@ -72,7 +72,7 @@ using SimpleFWA
                                    objFunction = objFunction,
                                    XPrimary    = XPrimary,
                                    yPrimary    = yPrimary,
-                                   maxiter     = 40 );
+                                   maxiter     = 1 );
   solutionFWA = sFWA( Easom_2D );
   @test isapprox( solutionFWA.x_b[1], π; atol=0.04 )
   @test isapprox( solutionFWA.x_b[2], π; atol=0.04 )
