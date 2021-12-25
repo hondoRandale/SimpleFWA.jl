@@ -28,14 +28,6 @@ module SimpleFWA
 
   export FWA, simpleFWA, metropolisHastingsFWA
 
-  """
-    X                 - each column is the origin of a fw
-    fitness_fireworks - fitness of each fw
-    S                 - contains all sparks foreach fw
-    fitness_sparks    - fitness of each spark
-    x_b               - best found solution
-    y_min             - function value at best found solution
-  """
   mutable struct FWA
     X;
     fitness_fireworks;
