@@ -29,14 +29,14 @@ module SimpleFWA
   export FWA, simpleFWA, metropolisHastingsFWA
 
   mutable struct FWA
-    X;
-    fitness_fireworks;
+    X::Matrix{Float32};
+    fitness_fireworks::Vector{Float32};
     S;
     fitness_sparks;
     x_b;
-    y_min;
-    iter;
-    err_conv;
+    y_min::Float32;
+    iter::Int;
+    err_conv::Float32;
   end
 
   function dynExplosionAmplitude( y_min::Float32,
