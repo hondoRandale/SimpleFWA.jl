@@ -1,7 +1,7 @@
 name = "SimpleFWA"
 uuid = "c5e3f7f7-c02a-4fcc-b7a5-ee49051641db"
 authors = ["hondoRandale <jules.rasetaharison@tutanota.com> and contributors"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
