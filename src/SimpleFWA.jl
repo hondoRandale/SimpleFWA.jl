@@ -118,18 +118,16 @@ module SimpleFWA
     end
   end
 
-  function evaluateCandidates( ;XPrimary::Vector{ Matrix{Float32} },
-                               yPrimary::Vector{ Matrix{Float32} },
+  function evaluateCandidates( ;kwargs::Tuple,
                                f::Function,
                                X,
                                fitness )
-    @assert size( XPrimary, 2 ) == length( yPrimary )
-    @assert size( X, 2 )        == size( fitness, 1 )
-
+    @assert size( X, 2 ) == size( fitness, 1 )
     n = size( X, 2 )::Int;
+    @assert n > 0
     for ii ∈ 1:1:n
       x            = view( X, :, ii );
-      fitness[ii]  = f( x; XPrimary=XPrimary, yPrimary=yPrimary );
+      fitness[ii]  = f( x; kwargs=kwargs );
     end
   end
 
@@ -157,7 +155,8 @@ module SimpleFWA
         number iteraions.  ϵ_conv denotes the convergence parameter.
     """
   @views function simpleFWA( nFireworks::Int,
-                             nSparks::Int;
+                             nSparks::Int,
+                             kwargs...;
                              λ_0::Float32,
                              ϵ_A::Float32,
                              C_a::Float32,
@@ -165,8 +164,6 @@ module SimpleFWA
                              lower::Vector{Float32},
                              upper::Vector{Float32},
                              objFunction::Function,
-                             XPrimary::Vector{ Matrix{Float32} },
-                             yPrimary::Vector{ Matrix{Float32} },
                              maxiter::Int,
                              ϵ_conv::Float32=0.001f0 )
 
@@ -178,7 +175,6 @@ module SimpleFWA
     @assert C_r        > 0.0f0
     @assert length( upper ) == length( lower )
     @assert all( lower .<  upper )
-    @assert size( XPrimary, 2 ) == length( yPrimary )
     @assert maxiter   > 0
 
     d        = length( lower );
@@ -204,8 +200,7 @@ module SimpleFWA
     # generate nFireworks randomly within boundaries
     drawFireworksPositionsBoundary!( ;rng=rng, X=X, rand_mat=rand_mat, upper=upper, lower=lower );
     ## evaluate fireworks
-    evaluateCandidates(;XPrimary = XPrimary,
-                        yPrimary = yPrimary,
+    evaluateCandidates(;kwargs   = kwargs,
                         f        = objFunction,
                         X        = X,
                         fitness  = fitness_fireworks );
@@ -239,8 +234,7 @@ module SimpleFWA
                          upper           = upper,
                          rng             = rng );
 
-        evaluateCandidates(;XPrimary = XPrimary,
-                            yPrimary = yPrimary,
+        evaluateCandidates(;kwargs   = kwargs,
                             f        = objFunction,
                             X        = S[jj],
                             fitness  = fitness_sparks[jj] );
