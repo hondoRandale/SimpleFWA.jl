@@ -28,25 +28,37 @@ using SimpleFWA
 
 
 @testset "SimpleFWA.jl" begin
-  XPrimary = Vector{ Matrix{Float32} }( undef, 1 );
-  yPrimary = Vector{ Matrix{Float32} }( undef, 1 );
-  
-  # 2-D objective functions 
 
-  @test Ackley( [ 0.0f0, 0.0f0 ]; XPrimary, yPrimary )              ≈ 0.0f0
-  @test Booth(  [ 1.0f0, 3.0f0 ]; XPrimary, yPrimary )              ≈ 0.0f0
-  @test Rosenbrock( [ 1.0f0, 1.0f0 ]; XPrimary, yPrimary )          ≈ 0.0f0
-  @test Matyas( [ 0.0f0, 0.0f0 ]; XPrimary, yPrimary )              ≈ 0.0f0
-  @test Three_hump_camel( [ 0.0f0, 0.0f0 ]; XPrimary, yPrimary )    ≈ 0.0f0
-  @test Easom( [ π, π ]; XPrimary, yPrimary )                       ≈ -1.0f0
-  @test Sphere( [0.0f0, 0.0f0]; XPrimary, yPrimary )                ≈ 0.0f0
-  @test Schaffer_function_no2( [0.0f0, 0.0f0]; XPrimary, yPrimary ) ≈ 0.0f0
-  @test Bukin_function_no6( [-10.0f0, 1.0f0 ]; XPrimary, yPrimary ) ≈ 0.0f0
+  # 2-D objective functions
+  @test Beale_2D( [3.0f0,0.5f0]; kwargs=() )                     ≈ 0.0f0
+  @test Himmelblau_2D( [ 3.0f0, 2.0f0 ]; kwargs=() )             ≈ 0.0f0
+  @test Himmelblau_2D( [ -2.805118f0,  3.131312f0 ]; kwargs=() ) ≈ 0.0f0 atol=1f-3
+  @test Himmelblau_2D( [ -3.779310f0, -3.283186f0 ]; kwargs=() ) ≈ 0.0f0 atol=1f-10
+  @test Himmelblau_2D( [ 3.584428f0, -1.848126f0 ]; kwargs=() )  ≈ 0.0f0 atol=1f-5
+  @test Levi_no13_2D( [ 1.0f0, 1.0f0 ]; kwargs=() )              ≈ 0.0f0 atol=1f-30
+  @test Ackley_2D( [ 0.0f0, 0.0f0 ]; kwargs=() )                 ≈ 0.0f0
+  @test Booth_2D(  [ 1.0f0, 3.0f0 ]; kwargs=() )                 ≈ 0.0f0
+  @test Rosenbrock_2D( [ 1.0f0, 1.0f0 ]; kwargs=() )             ≈ 0.0f0
+  @test Matyas_2D( [ 0.0f0, 0.0f0 ]; kwargs=() )                 ≈ 0.0f0
+  @test Three_hump_camel_2D( [ 0.0f0, 0.0f0 ]; kwargs=() )       ≈ 0.0f0
+  @test Easom_2D( [ π, π ]; kwargs=() )                          ≈ -1.0f0
+  @test Sphere_2D( [0.0f0, 0.0f0]; kwargs=() )                   ≈ 0.0f0
+  @test Schaffer_function_no2_2D( [0.0f0, 0.0f0]; kwargs=() )    ≈ 0.0f0
+  @test Bukin_function_no6_2D( [-10.0f0, 1.0f0 ]; kwargs=() )    ≈ 0.0f0
 
+  # N-D objective functions
+  @test Michalewicz_ND( [ 2.20f0, 1.57f0 ]; kwargs=() )               ≈ -1.8081267f0
+  @test Zakharov_ND( [ 0.0f0, 0.0f0 ]; kwargs=() )                    ≈ 0.0f0
+  @test AxisParallelHyperEll_ND( [ 0.0f0, 0.0f0 ]; kwargs=() )        ≈ 0.0f0
+  @test Sphere_ND( [ 0.0f0, 0.0f0 ]; kwargs=() )                      ≈ 0.0f0
+  @test Rastrigin_ND( [ 0.0f0, 0.0f0 ]; kwargs=() )                   ≈ 0.0f0
+  @test Styblinski_Tang_ND( [ -2.903534f0, -2.903534f0 ]; kwargs=() ) ≈ -78.33233f0
+  @test Exponential_ND( [ 0.0f0, 0.0f0 ]; kwargs=() )                 ≈ -1.0f0
+  @test Griewank_ND( [ 0.0f0, 0.0f0 ]; kwargs=() )                    ≈ 0.0f0
   lower    = [ -10.0f0, -10.0f0 ];
   upper    = [ 10.0f0, 10.0f0 ];
 
-  sFWA( objFunction ) = simpleFWA( 16, 16;
+  sFWA( objFunction ) = simpleFWA( 16, 16, ();
                                    λ_0         = 7.95f0,
                                    ϵ_A         = 0.5f-2,
                                    C_a         = 1.2f0,
@@ -54,11 +66,10 @@ using SimpleFWA
                                    lower       = lower,
                                    upper       = upper,
                                    objFunction = objFunction,
-                                   XPrimary    = XPrimary,
-                                   yPrimary    = yPrimary,
-                                   maxiter     = 40 );
-  solutionFWA = sFWA( Easom );
-  @test isapprox( solutionFWA.x_b[1], π; atol=0.01 )
-  @test isapprox( solutionFWA.x_b[2], π; atol=0.01 )
-  @test sum( [ sFWA( fObj ).y_min for fObj ∈ obj_functions ] ) < -0.8
-end;
+                                   maxiter     = 20 );
+  solutionFWA = sFWA( Easom_2D );
+  @test isapprox( solutionFWA.x_b[1], π; atol=0.08 )
+  @test isapprox( solutionFWA.x_b[2], π; atol=0.08 )
+
+  @test sum( [ sFWA( fObj ).y_min for fObj ∈ obj_functions_2D ] )  < -0.8
+end
