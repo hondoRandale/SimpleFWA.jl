@@ -6,6 +6,12 @@
 # SimpleFWA.jl
 
 
+[![TagBot](https://github.com/hondoRandale/SimpleFWA.jl/actions/workflows/TagBot.yml/badge.svg)](https://github.com/hondoRandale/SimpleFWA.jl/actions/workflows/TagBot.yml)
+
+
+[![documentation](https://github.com/hondoRandale/SimpleFWA.jl/actions/workflows/documentation.yml/badge.svg)](https://github.com/hondoRandale/SimpleFWA.jl/actions/workflows/documentation.yml)
+
+
 <a id='Introduction'></a>
 
 <a id='Introduction-1'></a>
@@ -26,7 +32,7 @@ ___
 ## calling convention
 
 
-each Objective function passed to SimpleFWA has to comply with the following    simple parameter convention f( x, XPrimary, yPrimary ) where f is the objective    function to be minimized. This convention ensures SimpleFWA can be used with    time-series-problems, classification-problems, regression-problems.    Univariate as well as multivariate target sets are admissible.
+each Objective function passed to SimpleFWA has to comply with the following    simple parameter convention f( x; kwargs ) where f is the objective    function to be minimized. This convention ensures SimpleFWA can be used with    time-series-problems, classification-problems, regression-problems.    Univariate as well as multivariate target sets are admissible.
 
 
 ___
@@ -42,13 +48,11 @@ ___
 ```julia
    using SimpleFWA
    using Test
-   Easom(x;XPrimary,yPrimary) = -cos( x[1] ) * cos( x[2] ) *
-                                exp( -( (x[1]-π)^2 + (x[2]-π)^2 ) )
+   Easom(x;kwargs) = -cos( x[1] ) * cos( x[2] ) *
+                     exp( -( (x[1]-π)^2 + (x[2]-π)^2 ) )
    lower    = [ -10.0f0, -10.0f0 ];
    upper    = [ 10.0f0, 10.0f0 ];
-   XPrimary = Vector{ Matrix{Float32} }( undef, 1 );
-   yPrimary = Vector{ Matrix{Float32} }( undef, 1 );                             
-   sFWA( objFunction ) = simpleFWA( 16, 16;
+   sFWA( objFunction ) = simpleFWA( 16, 16, ();
                                     λ_0         = 7.95f0,
                                     ϵ_A         = 0.5f-2,
                                     C_a         = 1.2f0,
@@ -93,7 +97,6 @@ simpleFWA( nFireworks::Int,
            yPrimary::Vector{ Matrix{Float32} },
            maxiter::Int,
            ϵ_conv::Float32=1f-6 )
-
 minimize objective function objFunction, the solution space is limited by lower and upper bound.
 The optimization algorithm utilized is an simplified version of dynFireWorksAlgorithm. The nFireworks
 parameter governs the number of fireworks being evaluated in parallel in each iteration.  nSparks is
@@ -105,15 +108,20 @@ number iteraions.  ϵ_conv denotes the convergence parameter.
 ```
 
 
-<a target='_blank' href='https://github.com/hondoRandale/SimpleFWA.jl/blob/f47a42142f276d626c199ecba6dc19df58d1ed25/src/SimpleFWA.jl#L34-L59' class='documenter-source'>source</a><br>
-
-<a id='SimpleFWA.FWA' href='#SimpleFWA.FWA'>#</a>
-**`SimpleFWA.FWA`** &mdash; *Type*.
+<a target='_blank' href='https://github.com/hondoRandale/SimpleFWA.jl/blob/1c27b4e2ab6be62645103d29eef329b5223bc97c/src/SimpleFWA.jl#L126-L148' class='documenter-source'>source</a><br>
 
 
+FWA struct
 
-X                 - each column is the origin of a fw   fitness*fireworks - fitness of each fw   S                 - contains all sparks foreach fw   fitness*sparks    - fitness of each spark   x*b               - best found solution   y*min             - function value at best found solution
 
-
-<a target='_blank' href='https://github.com/hondoRandale/SimpleFWA.jl/blob/f47a42142f276d626c199ecba6dc19df58d1ed25/src/SimpleFWA.jl#L14-L21' class='documenter-source'>source</a><br>
+| Parameter         | Description                           | Type                      |
+|:----------------- |:------------------------------------- |:------------------------- |
+| X                 | each column is the origin of a fw     | Matrix{Float32}           |
+| fitness_fireworks | fitness of each fw                    | Vector{Float32}           |
+| S                 | contains all sparks foreach fw        | Vector{ Matrix{Float32} } |
+| fitness_sparks    | fitness of each spark                 | Vector{ Vector{Float32} } |
+| x_b               | best found solution                   | Vector{Float32}           |
+| y_min             | function value at best found solution | Float32                   |
+| iter              | number of iterations executed         | Int                       |
+| err_conv          | convergence error after finish        | Float32                   |
 
